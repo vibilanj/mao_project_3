@@ -37,6 +37,10 @@ for h in ["Monday_Hour_1", "Monday_Hour_2"]:
 # Constraints: homework for 3 hours after class
 prob += lpSum(x[h]["homework"] for h in hours) == 3
 
+start_hour = "Monday_Hour_3"
+start_index = hours.index(start_hour)
+prob += lpSum(x[h]["homework"] for h in hours[:start_index]) == 0
+
 deadline_hour = "Tuesday_Hour_4"
 deadline_index = hours.index(deadline_hour)
 prob += lpSum(x[h]["homework"] for h in hours[:deadline_index+1]) == 3
