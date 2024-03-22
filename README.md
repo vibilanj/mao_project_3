@@ -1,4 +1,4 @@
-# Modelling and Optimization Project 2
+# Modelling and Optimization Project 3
 
 ## Proposal
 
@@ -18,13 +18,15 @@ To demonstrate the process, users will interact with a user-friendly interface w
 
 ### Setting up the environment
 
-1. Ensure that you have a working install of Python 3.11.7.
+1. Ensure that you have a working install of Python 3.11.8.
 2. Navigate to the directory containing the project in your terminal.
 3. Create a Python virtual environment by running `python3 -m venv .venv`.
 4. Use the virtual environment with `source .venv/bin/activate`.
 5. Install the necessary packages using `pip install -r requirements.txt`.
 
 ### Running the program
+
+TODO: change this
 
 1. Navigate to the project directory.
 2. Make sure that the virtual environment is activated. If it is not, use `source .venv/bin/activate`.
