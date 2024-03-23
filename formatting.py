@@ -64,6 +64,5 @@ def show_schedule(schedule):
     print("--------------------------------------------------------")
     for i in range(0, N_CHUNKS_PER_DAY):
         time = convert_chunk_to_time(i)
-        # Prints only the first 5 characters of the activity name
-        # print(f" {time} | {mon[i][:5]:>5} | {tue[i][:5]:>5} | {wed[i][:5]:>5} | {thu[i][:5]:>5} | {fri[i][:5]:>5} |")
-        print(f" {time} | {mon[i]:>5} | {tue[i]:>5} | {wed[i]:>5} | {thu[i]:>5} | {fri[i]:>5} |")
+        # NOTE: prints only the first 5 characters of the activity name
+        print(f" {time} | {mon[i][:5]:>5} | {tue[i][:5]:>5} | {wed[i][:5]:>5} | {thu[i][:5]:>5} | {fri[i][:5]:>5} |")

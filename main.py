@@ -3,7 +3,6 @@ from formatting import convert_solution_to_schedule, show_schedule
 from constants import N_CHUNKS, N_CHUNKS_PER_DAY, EMPTY_NAME
 from parse import parse_schedule
 
-# TODO: move constants to constants file
 chunks = list(range(0, N_CHUNKS)) 
 
 # NOTE: Activity names must be provided first before adding events and tasks as
@@ -11,14 +10,13 @@ chunks = list(range(0, N_CHUNKS))
 # reasons why it is better to read the schedule from a file
 activities, event_args, task_args = parse_schedule()
 
-# Define the problem
-# Create a binary variable for each hour-activity pair
-# Objective function: maximize free time
+# Define the problem by creating binary variables for each hour-activity pair
+# and setting the objective function to maximize free time
 prob = LpProblem("Schedule_Optimization", LpMaximize)
 x = LpVariable.dicts("schedule", (chunks, activities), cat='Binary')
 prob += lpSum(x[c][EMPTY_NAME] for c in chunks)
 
-# Assumes that each chunk is 30 minutes
+# NOTE: Assumes that each chunk is 30 minutes
 def daytime_to_start_chunk(day, time):
     # ("Monday", 9) -> 0
     # ("Tuesday", 12) -> 11
@@ -50,11 +48,11 @@ def add_task(prob, name, time_required, start_daytime, end_daytime):
     end = daytime_to_start_chunk(*end_daytime)
     chunks_required = time_required * 2
 
-    # Constraints: homework for 3 hours after class
+    # Number of hours required
     prob += lpSum(x[c][name] for c in chunks) == chunks_required
-    # After start hour
+    # Task can only be started after the start hour
     prob += lpSum(x[c][name] for c in chunks[:start]) == 0
-    # Up to and including deadline hour
+    # Task must be finished before the end hour
     prob += lpSum(x[c][name] for c in chunks[:end]) == chunks_required
 
 for task_args in task_args:

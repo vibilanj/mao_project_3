@@ -1,3 +1,5 @@
+# Lines beginning with # are considered as comments and do not affect the schedule
+
 # EVENT [name] [day] [start_time] [end_time]
 # TASK [name] [time_required] [start_day] [start_time] [end_day] [end_time]
 
