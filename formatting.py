@@ -42,9 +42,8 @@ def make_full_schedule(sched):
 
 # Assumes that each chunk is 30 minutes
 def convert_chunk_to_time(chunk):
-    # 1 -> 09:00 - 10:00
-    # ...
-    # 8 -> 16:00 - 17:00
+    # 0 -> 09:00 - 10:00
+    # 8 -> 13:00 - 13:30
     day_chunk = chunk % N_CHUNKS_PER_DAY
     start_hour = 9 + int(day_chunk / 2)
     start_minute = "00" if day_chunk % 2 == 0 else "30"
@@ -65,6 +64,6 @@ def show_schedule(schedule):
     print("--------------------------------------------------------")
     for i in range(0, N_CHUNKS_PER_DAY):
         time = convert_chunk_to_time(i)
+        # Prints only the first 5 characters of the activity name
+        # print(f" {time} | {mon[i][:5]:>5} | {tue[i][:5]:>5} | {wed[i][:5]:>5} | {thu[i][:5]:>5} | {fri[i][:5]:>5} |")
         print(f" {time} | {mon[i]:>5} | {tue[i]:>5} | {wed[i]:>5} | {thu[i]:>5} | {fri[i]:>5} |")
-
-        # print(f" {i+1} | {mon[i]:>5} | {tue[i]:>5} | {wed[i]:>5} | {thu[i]:>5} | {fri[i]:>5} |")

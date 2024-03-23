@@ -1,32 +1,22 @@
 from pulp import LpProblem, LpMaximize, LpVariable, lpSum, LpStatus, PULP_CBC_CMD
 from formatting import convert_solution_to_schedule, show_schedule
-from constants import N_CHUNKS, N_CHUNKS_PER_DAY
+from constants import N_CHUNKS, N_CHUNKS_PER_DAY, EMPTY_NAME
+from parse import parse_schedule
 
 # TODO: move constants to constants file
 chunks = list(range(0, N_CHUNKS)) 
 
-empty_name = "_"
-activities = [empty_name]
-
-# Activity names must be provided first before adding events and tasks as 
-# they are required to create the binary variables for the problem
-def add_activity(name):
-    activities.append(name)
-
-add_activity("MaO")
-add_activity("CMPS")
-add_activity("HDMA")
-add_activity("PLDI")
-add_activity("Lunch")
-
-add_activity("HW1")
+# NOTE: Activity names must be provided first before adding events and tasks as
+# they are required to create the binary variables for the problem > One of the
+# reasons why it is better to read the schedule from a file
+activities, event_args, task_args = parse_schedule()
 
 # Define the problem
 # Create a binary variable for each hour-activity pair
 # Objective function: maximize free time
 prob = LpProblem("Schedule_Optimization", LpMaximize)
 x = LpVariable.dicts("schedule", (chunks, activities), cat='Binary')
-prob += lpSum(x[c][empty_name] for c in chunks)
+prob += lpSum(x[c][EMPTY_NAME] for c in chunks)
 
 # Assumes that each chunk is 30 minutes
 def daytime_to_start_chunk(day, time):
@@ -49,22 +39,8 @@ def add_event(prob, name, start_daytime, end_daytime):
     for c in range(start, end):
         prob += x[c][name] == 1
 
-add_event(prob, "MaO", ("Tuesday", "13:00"), ("Tuesday", "14:30"))
-add_event(prob, "MaO", ("Friday", "13:00"), ("Friday", "14:30"))
-
-add_event(prob, "CMPS", ("Monday", "09:00"), ("Monday", "10:30"))
-add_event(prob, "CMPS", ("Thursday", "09:00"), ("Thursday", "10:30"))
-
-add_event(prob, "HDMA", ("Wednesday", "14:30"), ("Wednesday", "17:30"))
-
-add_event(prob, "PLDI", ("Monday", "10:30"), ("Monday", "12:00"))
-add_event(prob, "PLDI", ("Thursday", "10:30"), ("Thursday", "12:00"))
-
-add_event(prob, "Lunch", ("Monday", "12:00"), ("Monday", "13:00"))
-add_event(prob, "Lunch", ("Tuesday", "12:00"), ("Tuesday", "13:00"))
-add_event(prob, "Lunch", ("Wednesday", "12:00"), ("Wednesday", "13:00"))
-add_event(prob, "Lunch", ("Thursday", "12:00"), ("Thursday", "13:00"))
-add_event(prob, "Lunch", ("Friday", "12:00"), ("Friday", "13:00"))
+for event_args in event_args:
+    add_event(prob, *event_args)
 
 # ADDING TASKS
 # Tasks are items that are flexible and can be moved around
@@ -81,9 +57,8 @@ def add_task(prob, name, time_required, start_daytime, end_daytime):
     # Up to and including deadline hour
     prob += lpSum(x[c][name] for c in chunks[:end]) == chunks_required
 
-# Adding constraint for task HW1 that takes 3 hours and starts after 11 on Monday with
-# a deadline at 12 on Tuesday
-add_task(prob, "HW1", 10, ("Monday", "10:30"), ("Thursday", "19:00"))
+for task_args in task_args:
+    add_task(prob, *task_args)
 
 # Constriant: Each hour can only have one activity
 for c in chunks:
@@ -92,11 +67,7 @@ for c in chunks:
 # Solve the problem
 prob.solve(PULP_CBC_CMD(msg=0))
 
-# Print the schedule
-# for c in chunks:
-#     for a in activities:
-#         if x[c][a].value() == 1:
-#             print(f"{c}: {a}")
-
 sched = convert_solution_to_schedule(x, chunks, activities)
 show_schedule(sched)
+
+# NOTE: doesn't check if the schedule is possible to be optimized, or whether all the constraints are met
