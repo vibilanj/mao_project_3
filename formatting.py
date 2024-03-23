@@ -1,10 +1,10 @@
 # TODO: cleanup signatures
 
-def convert_solution_to_schedule(sol, hours, activities):
+def convert_solution_to_schedule(sol, chunks, activities):
     schedule = []
-    for h in hours:
+    for c in chunks:
         for a in activities:
-            if sol[h][a].value() == 1:
+            if sol[c][a].value() == 1:
                 schedule.append(a)
     return schedule
 
@@ -48,9 +48,11 @@ def show_schedule(schedule):
     # 09:00 - 10:00 |       |_     _|_     _|_     _|_     _|
     # 10:00 - 11:00 |_ABCDE_|_     _|_     _|_     _|_     _|
 
-    mon, tue, wed, thu, fri = make_full_sparse_schedule(schedule)
+    # mon, tue, wed, thu, fri = make_full_sparse_schedule(schedule)
+    mon, tue, wed, thu, fri = schedule[:8], schedule[8:16], schedule[16:24], schedule[24:32], schedule[32:40]
     print("               |  MON  |  TUE  |  WED  |  THU  |  FRI  |")
     print("--------------------------------------------------------")
     for i in range(0, 8):
         time = convert_chunk_to_time(i)
         print(f" {time} | {mon[i]:>5} | {tue[i]:>5} | {wed[i]:>5} | {thu[i]:>5} | {fri[i]:>5} |")
+        # print(f" {i+1} | {mon[i]:>5} | {tue[i]:>5} | {wed[i]:>5} | {thu[i]:>5} | {fri[i]:>5} |")
