@@ -50,10 +50,15 @@ This file contains the sample schedule requirements that the program reads by de
 
 ## Further Improvements
 
-## Notes:
-1. Activity names must be provided first before adding events and tasks as they are required to create the binary variables for the problem. This is one of the reasons why it is better to read the schedule from a file.
-2. The program doesn't check if the schedule is possible to be optimized, or whether the provided solution meets all the constraints.
-3. The program might break when too many tasks and events are added. Other solvers are available within PuLP, but they are not as user-friendly as the default solver. They would have to be installed by the user and linked to the program. However, these solvers might be better at handling large problems.
+The program does not check if the schedule is possible to be optimized, or whether the provided solution meets all the constraints. It assumes that the user provides a valid schedule that can be optimized. In the future, it would be beneficial to add checks to ensure that the schedule is valid and can be optimized. This would involve checking that the constraints are feasible and that the solution meets all the constraints.
+
+Additionally, the program might break when too many tasks and events are added. This is because the default solver might not be able to handle large problems. Other solvers are available within PuLP, but they are not as user-friendly as the default solver. They would have to be installed by the user and linked to the program. However, these solvers might be better at handling large problems.
+
+Currently, the program only optimizes for free time. However, if all the given events and tasks are to be completed, the amount of free time is predetermined. In other words, there is no way that the program can create more free time than possile. It would be better and more useful if the program could optimize for other factors such as contiguity of free time, or the distribution of free time throughout the week. This would require a more complex objective function and additional constraints.
+
+There are some assumptions made in the program that might not be valid in all cases. For example, the program is limited to 20 half-hour time chunks per day for five days. Some users might want to manage more or less time within a day, or manage a different number of days in a week. The program could be made more flexible by allowing the user to specify the number of time chunks per day and the number of days in a week.
+
+Overall, the program is a good starting point for a scheduling tool. It can be further developed and improved to handle more complex schedules and constraints. The integer programming model can be extended to include more factors and the program can be made more user-friendly by adding a graphical user interface.
 
 ## How to Run
 

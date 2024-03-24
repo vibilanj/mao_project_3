@@ -1,3 +1,5 @@
+# --------------------------------- Usage guide ---------------------------------
+#
 # Lines beginning with '#' are considered as comments and do not get parsed as
 #   schedule requirements.
 #
@@ -28,28 +30,32 @@
 #   with a different requirements file, you can pass in the file name as an
 #   optional argument replacing the text in square brackets:
 #   `python main.py --schedule [another-file.txt]`
+#
+# -------------------------------------------------------------------------------
 
+
+# Adding some classes
 EVENT MaO Tuesday 13:00 14:30
 EVENT MaO Friday 13:00 14:30
-
 EVENT CMPS Monday 09:00 10:30
 EVENT CMPS Thursday 09:00 10:30
-
 EVENT HDMA Wednesday 14:30 17:30
-
 EVENT PLDI Monday 10:30 12:00
 EVENT PLDI Thursday 10:30 12:00
 
+# Blocking out time for lunch
 EVENT Lunch Monday 12:00 13:00
 EVENT Lunch Tuesday 12:00 13:00
 EVENT Lunch Wednesday 12:00 13:00
 EVENT Lunch Thursday 12:00 13:00
 EVENT Lunch Friday 12:00 13:00
 
+# Adding homework tasks to be completed at various times
 TASK HW1 8 Monday 10:30 Thursday 19:00
 TASK HW2 5 Tuesday 14:30 Friday 13:00
 TASK HW3 2 Thursday 14:00 Thursday 19:00
 
+# Scheduling a workout every day whenever possible
 TASK Gym 1 Monday 09:00 Monday 19:00
 TASK Gym 1 Tuesday 09:00 Tuesday 19:00
 TASK Gym 1 Wednesday 09:00 Wednesday 19:00
