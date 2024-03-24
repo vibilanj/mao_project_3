@@ -1,0 +1,17 @@
+# Lines beginning with # are considered as comments and do not affect the schedule
+
+# EVENT [name] [day] [start_time] [end_time]
+# TASK [name] [time_required] [start_day] [start_time] [end_day] [end_time]
+
+EVENT MaO Tuesday 13:00 14:30
+EVENT MaO Friday 13:00 14:30
+
+EVENT CMPS Monday 09:00 10:30
+EVENT CMPS Thursday 09:00 10:30
+
+EVENT HDMA Wednesday 14:30 17:30
+
+EVENT PLDI Monday 10:30 12:00
+EVENT PLDI Thursday 10:30 12:00
+
+TASK HW1 10 Monday 10:30 Thursday 19:00

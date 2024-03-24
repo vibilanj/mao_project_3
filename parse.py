@@ -54,8 +54,8 @@ def handle_task(name, hours_required, start_day, start_time, deadline_day, deadl
     add_task_args = (name, hours_required, (start_day, start_time), (deadline_day, deadline_time))
     tasks.append(add_task_args)
 
-def parse_schedule():
-    f = open("schedule.txt", "r")
+def parse_schedule(filename):
+    f = open(filename, "r")
     lines = f.readlines()
     for line in clean_lines(lines):
         split_line = line.split(" ")

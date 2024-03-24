@@ -1,14 +1,24 @@
-from pulp import LpProblem, LpMaximize, LpVariable, lpSum, LpStatus, PULP_CBC_CMD
+import argparse
+from pulp import LpProblem, LpMaximize, LpVariable, lpSum, PULP_CBC_CMD
+
 from formatting import convert_solution_to_schedule, show_schedule
 from constants import N_CHUNKS, N_CHUNKS_PER_DAY, EMPTY_NAME
 from parse import parse_schedule
+
+argparser = argparse.ArgumentParser("main")
+argparser.add_argument(
+    "--schedule",
+    type=str,
+    default="schedule.txt",
+    help="path to the schedule file")
+args = argparser.parse_args()
 
 chunks = list(range(0, N_CHUNKS)) 
 
 # NOTE: Activity names must be provided first before adding events and tasks as
 # they are required to create the binary variables for the problem > One of the
 # reasons why it is better to read the schedule from a file
-activities, event_args, task_args = parse_schedule()
+activities, event_args, task_args = parse_schedule(args.schedule)
 
 # Define the problem by creating binary variables for each hour-activity pair
 # and setting the objective function to maximize free time
