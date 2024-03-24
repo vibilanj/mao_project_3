@@ -1,5 +1,5 @@
 import argparse
-from formatting import convert_solution_to_schedule, show_schedule
+from formatting import show_schedule
 from parse import ScheduleParser
 from scheduler import Scheduler
 
@@ -16,14 +16,13 @@ args = argparser.parse_args()
 # Parse the schedule file and get the list of activities, events, and tasks to add.
 activities, event_args, task_args = ScheduleParser(args.schedule).parse_schedule()
 
-# Create the scheduler, add the events and tasks and get the optimized solution.
+# Create the scheduler, add the events and tasks and get the optimized schedule.
 scheduler = Scheduler(activities)
 for event_args in event_args:
     scheduler.add_event(*event_args)
 for task_args in task_args:
     scheduler.add_task(*task_args)
-sol = scheduler.solve()
+schedule = scheduler.solve()
 
-# Convert the solution to a human-readable schedule and display it.
-schedule = convert_solution_to_schedule(sol, activities)
+# Display the schedule in a human-readable manner.
 show_schedule(schedule)

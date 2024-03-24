@@ -1,17 +1,6 @@
 from constants import N_CHUNKS_PER_DAY, N_CHUNKS
 
 
-# Converts the solution indo a list of activities that are scheduled.
-def convert_solution_to_schedule(sol, activities):
-    chunks = list(range(0, N_CHUNKS))
-    schedule = []
-    for c in chunks:
-        for a in activities:
-            if sol[c][a].value() == 1:
-                schedule.append(a)
-    return schedule
-
-
 # Converts the day and time to the index of the chunk where the activity starts.
 def daytime_to_start_chunk(day, time):
     days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]

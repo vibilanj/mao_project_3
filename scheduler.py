@@ -41,9 +41,15 @@ class Scheduler:
 
     # Adds the final constraint that each time chunk can only have one
     #   activity. Solves the integer programming problem and returns the
-    #   solution.
+    #   optimized schedule.
     def solve(self):
         for c in self.chunks:
             self.prob += lpSum(self.x[c][a] for a in self.activities) == 1
         self.prob.solve(PULP_CBC_CMD(msg=0))
-        return self.x
+
+        schedule = []
+        for c in self.chunks:
+            for a in self.activities:
+                if self.x[c][a].value() == 1:
+                    schedule.append(a)
+        return schedule
