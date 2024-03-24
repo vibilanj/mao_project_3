@@ -10,7 +10,7 @@ argparser.add_argument(
     "--schedule",
     type=str,
     default="schedule.txt",
-    help="path to the schedule file")
+    help="path of the schedule requirements file")
 args = argparser.parse_args()
 
 # Parse the schedule file and get the list of activities, events, and tasks to add.

@@ -26,19 +26,14 @@ To demonstrate the process, users will interact with a user-friendly interface w
 
 ### Running the program
 
-TODO: change this
-
 1. Navigate to the project directory.
 2. Make sure that the virtual environment is activated. If it is not, use `source .venv/bin/activate`.
-3. Run the program using `python main.py` and pass in the correct arguments.
+3. Run the program using `python main.py` and pass in any optional arguments.
     - You can use the `-h` flag to see the help message and the available arguments.
-4. You must provide the path to the image you wish to compress.
-    - For example, you can compress the `rocks.png` image by running `python main.py rocks.png`.
-5. Additionally, you can provide the compression level with `--number_of_clusters` and the path to store the compressed image with `--save_path`.
-    - If you do not provide the optional arguments, the program will default to $16$ clusters and `compressed.png` respectively.
-    - An example command would be `python main.py rocks.png --number_of_clusters 32 --save_path rocks-compressed.png`. This would compress the `rocks.png` image with $32$ clusters and save the compressed image to `rocks-compressed.png`.
-    - Another example command would be `python main.py rocks.png --save_path rocks-compressed.png`. This would compress the `rocks.png` image with the default $16$ clusters and save the compressed image to `rocks-compressed.png`.
-4. View the compressed image at the path you provided.
+4. By default, the program will read the schedule requirements from the `schedule.txt` file.
+    - You can instead  provide a different file by using the `--schedule` argument.
+    - An example command would be `python main.py --schedule my_schedule.txt`. This would read the schedule requirements from the `my_schedule.txt` file.
+4. View the schedule created by the integer programming solver in the terminal output.
 
 ## Notes:
 1. Activity names must be provided first before adding events and tasks as they are required to create the binary variables for the problem. This is one of the reasons why it is better to read the schedule from a file.
