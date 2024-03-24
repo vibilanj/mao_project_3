@@ -18,19 +18,19 @@ This file contains the constants used throughout the program. The constants incl
 
 ### `parse.py`
 
-This file contains the `ScheduleParser` class which reads the schedule requirements from the file, validates them and stores them in a structured format. The class is used by the main program by providing it with the file name and calling the `parse_schedule` method. This method reads the file, cleans the lines and constructs the list of activites, and the list of arguments required to add events (using the `handle_event` method) and tasks (using the `handle_task` method) to the problem. The specifics regarding the validation and creation of the structured data are explained in the comments in the file.
+This file contains the `ScheduleParser` class which reads the schedule requirements from the file, validates them and stores them in a structured format. The class is used by the main program by providing it with the file name and calling the `parse_schedule` method. This method reads the file, cleans the lines and constructs the list of activities, and the list of arguments required to add events (using the `handle_event` method) and tasks (using the `handle_task` method) to the problem. The specifics regarding the validation and creation of the structured data are explained in the comments in the file.
 
 ### `scheduler.py`
 
-This file contains the `Scheduler` class which is responsible for creating the integer programming model, adding the constraints and the objective function, and solving the model. The class is used by the main program by providing it with the list of activites. This allows the class to initialize the integer programming model with the binary variables for each time chunk and activity pair. The objective function is also defined at this stage to maximize the free time.
+This file contains the `Scheduler` class which is responsible for creating the integer programming model, adding the constraints and the objective function, and solving the model. The class is used by the main program by providing it with the list of activities. This allows the class to initialize the integer programming model with the binary variables for each time chunk and activity pair. The objective function is also defined at this stage to maximize the free time.
 
-Then, the main program uses the `add_event` and `add_task` methods to add the events and tasks to the model. For each event, the constaints that the event must take place between the specified starting and ending time chunks is added to the problem. For each task, the constraint that the task must have enough time chunks assigned to it between the specified starting and ending time chunks is added to the problem.
+Then, the main program uses the `add_event` and `add_task` methods to add the events and tasks to the model. For each event, the constraints that the event must take place between the specified starting and ending time chunk is added to the problem. For each task, the constraint that the task must have enough time chunks assigned to it between the specified starting and ending time chunks is added to the problem.
 
-Initially, there were three constraints for each task with each constraint being added separately. There was a constraint that the task must have no time chunks assigned to it before the starting time chunk, a constraint that the task must have enough time chunks assigned to it before the ending time chunk, and a constraint that the task must have no time chunks assigned to it after the ending time chunk.
+Initially, there were three constraints for each task with each constraint being added separately. There was a constraint that the task must have no time chunks assigned to it before the starting time chunk, a constraint that the task must have enough time chunks assigned to it before the ending time chunk and a constraint that the task must have no time chunks assigned to it after the ending time chunk.
 
-However, I found that combining the three constraints into a single constraint that specifies the range of time chunks for the task improved the performance of the scheduler. This higlights the importance of formulating the problem correctly and efficiently.
+However, I found that combining the three constraints into a single constraint that specifies the range of time chunks for the task improved the performance of the scheduler. This highlights the importance of formulating the problem correctly and efficiently.
 
-Lastly, the main program calls the `solve` method. First, this method adds the final constraint that each time chunk can only have a single activity. Then, the inbuilt `PULP_CBC_CMD` solver is used solves the integer programming model. Finally, the method returns the optimized schedule as a list of assigned activities.
+Lastly, the main program calls the `solve` method. First, this method adds the final constraint that each time chunk can only have a single activity. Then, the inbuilt `PULP_CBC_CMD` solver is used to solve the integer programming model. Finally, the method returns the optimized schedule as a list of assigned activities.
 
 ### `formatting.py`
 
@@ -42,7 +42,7 @@ This file is the main runner file. It contains the command line argument parsing
 
 If no file is provided, the program reads the schedule requirements from the `schedule.txt` file by default. The default file contains sample schedule requirements in a structured format with detailed comments on how to add events and tasks to the schedule.
 
-The program then reads the schedule requirements from the file using the `ScheduleParser` class. With this data, it can then create and add constraints to the integer programming model using the `Scheduler` class. Lastly, it solves the problem to generate the optimized schedule. The schedule is then printed to the terminal in a human-readable format.
+The program then reads the schedule requirements from the file using the `ScheduleParser` class. With this data, it can then create and add constraints to the integer programming model using the `Scheduler` class. Lastly, it solves the problem and generates the optimized schedule. The schedule is then printed to the terminal in a human-readable format.
 
 ### `schedule.txt`
 
@@ -54,9 +54,9 @@ The program does not check if the schedule is possible to be optimized, or wheth
 
 Additionally, the program might break when too many tasks and events are added. This is because the default solver might not be able to handle large problems. Other solvers are available within PuLP, but they are not as user-friendly as the default solver. They would have to be installed by the user and linked to the program. However, these solvers might be better at handling large problems.
 
-Currently, the program only optimizes for free time. However, if all the given events and tasks are to be completed, the amount of free time is predetermined. In other words, there is no way that the program can create more free time than possile. It would be better and more useful if the program could optimize for other factors such as contiguity of free time, or the distribution of free time throughout the week. This would require a more complex objective function and additional constraints.
+Currently, the program only optimizes for free time. However, if all the given events and tasks are to be completed, the amount of free time is predetermined. In other words, there is no way that the program can create more free time than possible. It would be better and more useful if the program could optimize for other factors such as the contiguity of free time, or the distribution of free time throughout the week. This would require a more complex objective function and additional constraints.
 
-There are some assumptions made in the program that might not be valid in all cases. For example, the program is limited to 20 half-hour time chunks per day for five days. Some users might want to manage more or less time within a day, or manage a different number of days in a week. The program could be made more flexible by allowing the user to specify the number of time chunks per day and the number of days in a week.
+There are some assumptions made in the program that might not be valid in all cases. For example, the program is limited to 20 half-hour time chunks per day for five days. Some users might want to manage more or less time within a day or manage a different number of days in a week. The program could be made more flexible by allowing the user to specify the number of time chunks per day and the number of days in a week.
 
 Overall, the program is a good starting point for a scheduling tool. It can be further developed and improved to handle more complex schedules and constraints. The integer programming model can be extended to include more factors and the program can be made more user-friendly by adding a graphical user interface.
 
