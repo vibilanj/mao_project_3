@@ -1,8 +1,10 @@
 from constants import EMPTY_NAME
 
+
 activities = set([EMPTY_NAME])
 events = []
 tasks = []
+
 
 def clean_lines(lines):
     lines = [line.strip() for line in lines]
@@ -10,13 +12,16 @@ def clean_lines(lines):
     lines = [line for line in lines if line[0] != "#"]
     return lines 
 
+
 def check_name(name):
     if name == "EMPTY_NAME":
         raise Exception(f"Name cannot be {EMPTY_NAME}")
 
+
 def check_day(day):
     if day not in ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]:
         raise Exception(f"Day should be Monday, Tuesday, Wednesday, Thursday, or Friday, got {day}")
+
 
 def check_time(time):
     hours, minutes = time.split(":")
@@ -25,9 +30,11 @@ def check_time(time):
     if minutes not in ["00", "30"]:
         raise Exception(f"Minutes should be 00 or 30, got {minutes}")
 
+
 def check_hours_required(hours):
     if hours < 0 or hours > 50:
         raise Exception(f"Hours required should be between 0 and 8, got {hours}")
+
 
 def handle_event(name, day, start_time, end_time):
     # Input validation
@@ -39,6 +46,7 @@ def handle_event(name, day, start_time, end_time):
     activities.add(name)
     add_event_args = (name, (day, start_time), (day, end_time))
     events.append(add_event_args)
+
 
 def handle_task(name, hours_required, start_day, start_time, deadline_day, deadline_time):
     # Input validation
@@ -53,6 +61,7 @@ def handle_task(name, hours_required, start_day, start_time, deadline_day, deadl
     activities.add(name)
     add_task_args = (name, hours_required, (start_day, start_time), (deadline_day, deadline_time))
     tasks.append(add_task_args)
+
 
 def parse_schedule(filename):
     f = open(filename, "r")

@@ -1,6 +1,8 @@
-from constants import N_CHUNKS_PER_DAY
+from constants import N_CHUNKS_PER_DAY, N_CHUNKS
 
-def convert_solution_to_schedule(sol, chunks, activities):
+
+def convert_solution_to_schedule(sol, activities):
+    chunks = list(range(0, N_CHUNKS))
     schedule = []
     for c in chunks:
         for a in activities:
@@ -8,14 +10,19 @@ def convert_solution_to_schedule(sol, chunks, activities):
                 schedule.append(a)
     return schedule
 
-def split_to_daily(schedule):
-    n = N_CHUNKS_PER_DAY
-    mon = schedule[:n]
-    tue = schedule[n:n*2]
-    wed = schedule[n*2:n*3]
-    thu = schedule[n*3:n*4]
-    fri = schedule[n*4:n*5]
-    return mon, tue, wed, thu, fri
+
+# NOTE: Assumes that each chunk is 30 minutes
+def daytime_to_start_chunk(day, time):
+    # ("Monday", 9) -> 0
+    # ("Tuesday", 12) -> 11
+    days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+    chunk_index = days.index(day) * N_CHUNKS_PER_DAY
+
+    hour, minute = time.split(":")
+    chunk_index += (int(hour) - 9) * 2
+    chunk_index += 1 if int(minute) == 30 else 0
+    return chunk_index
+
 
 # Assumes that each chunk is 30 minutes
 def convert_chunk_to_interval(chunk):
@@ -27,6 +34,16 @@ def convert_chunk_to_interval(chunk):
     end_hour = start_hour if day_chunk % 2 == 0 else start_hour + 1
     end_minute = "00" if day_chunk % 2 == 1 else "30"
     return f"{start_hour:02d}:{start_minute} - {end_hour:02d}:{end_minute}"
+
+def split_to_daily(schedule):
+    n = N_CHUNKS_PER_DAY
+    mon = schedule[:n]
+    tue = schedule[n:n*2]
+    wed = schedule[n*2:n*3]
+    thu = schedule[n*3:n*4]
+    fri = schedule[n*4:n*5]
+    return mon, tue, wed, thu, fri
+
 
 def show_schedule(schedule):
     print("               |  MON  |  TUE  |  WED  |  THU  |  FRI  |")
