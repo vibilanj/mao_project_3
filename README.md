@@ -40,3 +40,7 @@ TODO: change this
     - Another example command would be `python main.py rocks.png --save_path rocks-compressed.png`. This would compress the `rocks.png` image with the default $16$ clusters and save the compressed image to `rocks-compressed.png`.
 4. View the compressed image at the path you provided.
 
+## Notes:
+1. Activity names must be provided first before adding events and tasks as they are required to create the binary variables for the problem. This is one of the reasons why it is better to read the schedule from a file.
+2. The program doesn't check if the schedule is possible to be optimized, or whether the provided solution meets all the constraints.
+3. The program might break when too many tasks and events are added. Other solvers are available within PuLP, but they are not as user-friendly as the default solver. They would have to be installed by the user and linked to the program. However, these solvers might be better at handling large problems.

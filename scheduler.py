@@ -36,12 +36,8 @@ class Scheduler:
         start = daytime_to_start_chunk(*start_daytime)
         end = daytime_to_start_chunk(*end_daytime)
         chunks_required = time_required * 2
-
-        # NOTE: Number of hours required
         self.prob += lpSum(self.x[c][name] for c in self.chunks) == chunks_required
-        # NOTE: Task can only be started after the start hour
         self.prob += lpSum(self.x[c][name] for c in self.chunks[:start]) == 0
-        # NOTE: Task must be finished before the end hour
         self.prob += lpSum(self.x[c][name] for c in self.chunks[:end]) == chunks_required
 
 

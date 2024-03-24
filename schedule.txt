@@ -18,7 +18,7 @@
 #   - Days must be weekdays and written in full. e.g. "Monday", "Wednesday".
 #   - Times must be between 09:00 and 19:00 and can only be specified up to
 #       30 minute intervals. e.g. "11:00", "17:30".
-#   - Time required must be an integer.
+#   - Time required must be an integer greater than 0 and less than 21.
 #   - The program might not always be able to fulfill all the requirements.
 #       The optimizer solution will always be displayed but this be wrong.
 #
@@ -46,4 +46,6 @@ EVENT Lunch Wednesday 12:00 13:00
 EVENT Lunch Thursday 12:00 13:00
 EVENT Lunch Friday 12:00 13:00
 
-TASK HW1 10 Monday 10:30 Thursday 19:00
+TASK HW1 8 Monday 10:30 Thursday 19:00
+TASK HW2 5 Tuesday 14:30 Friday 13:00
+TASK HW3 2 Thursday 14:00 Thursday 19:00

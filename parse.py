@@ -44,10 +44,10 @@ class ScheduleParser:
 
 
     # Input validation for the number of hours required for a task. Limited
-    #   between 1 and 50 hours.
+    #   between 1 and 20 hours.
     def check_hours_required(self, hours):
-        if hours < 1 or hours > 50:
-            raise Exception(f"Hours required should be between 0 and 8, got {hours}")
+        if hours < 1 or hours > 20:
+            raise Exception(f"Hours required should be between 0 and 20, got {hours}")
 
 
     # Handles the EVENT keyword by checking and adding the event arguments.

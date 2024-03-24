@@ -13,10 +13,6 @@ argparser.add_argument(
     help="path to the schedule file")
 args = argparser.parse_args()
 
-# NOTE: Activity names must be provided first before adding events and tasks as
-#   they are required to create the binary variables for the problem. This is
-#   one of the reasons why it is better to read the schedule from a file.
-
 # Parse the schedule file and get the list of activities, events, and tasks to add.
 activities, event_args, task_args = ScheduleParser(args.schedule).parse_schedule()
 
@@ -27,9 +23,6 @@ for event_args in event_args:
 for task_args in task_args:
     scheduler.add_task(*task_args)
 sol = scheduler.solve()
-
-# NOTE: doesn't check if the schedule is possible to be optimized, or whether
-#   all the constraints are met.
 
 # Convert the solution to a human-readable schedule and display it.
 schedule = convert_solution_to_schedule(sol, activities)
