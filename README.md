@@ -1,18 +1,35 @@
 # Modelling and Optimization Project 3
 
-## Proposal
-
-The project proposes the development of a scheduling tool for college students using integer programming techniques. The tool will assist students in efficiently planning their schedules by considering various constraints such as class timings, assignment deadlines, and dependencies between tasks.
-
-The core functionality of the program involves formulating the scheduling problem as an integer programming model, where classes and assignments are represented as decision variables. Constraints will be defined to ensure that classes do not overlap, assignments are started after relevant classes, and deadlines are met. Additionally, the objective function will be designed to optimize factors such as minimizing the total time spent on campus or maximizing free time between classes.
-
-To demonstrate the process, users will interact with a user-friendly interface where they can input their class schedule, assignment deadlines, and other constraints. The program will then utilize the `pyomo` library to solve the integer programming model, generating an optimized schedule tailored to the user's preferences and constraints.
-
 ## Introduction
+
+This project is a scheduling tool that helps students plan their weekly schedules efficiently. The tool takes into account various constraints such as class timings, assignment openings, and assignment deadlines to generate an optimized schedule. The core functionality of the program involves formulating the scheduling problem as an integer programming model, where classes and assignments are represented as decision variables. Constraints are defined and the objective function is designed to maximize free time.
 
 ## Implementation Details
 
+The project is implemented in Python. Initially, I was planning to use the `pyomo` library to model and solve the integer programming problem. However, I found that the `pulp` library is more user-friendly and easier to work with for this project. Therefore, I decided to use the `pulp` library to model and solve the scheduling problem.
+
+Another change I made was to read the schedule requirements from a text file instead of taking user input directly. This makes it easier for the user to input complex schedules and constraints without having to interact with the program through a command line interface. The program reads the schedule requirements from the file and generates an optimized schedule based on the constraints and preferences provided.
+
+Here are the descriptions of the five Python files and the input file. Furthermore, the code in each file is documented with comments to explain each part in greater detail.
+
+### `constants.py`
+
+### `parse.py`
+
+### `scheduler.py`
+
+### `formatting.py`
+
+### `main.py`
+
+### `schedule.txt`
+
 ## Further Improvements
+
+## Notes:
+1. Activity names must be provided first before adding events and tasks as they are required to create the binary variables for the problem. This is one of the reasons why it is better to read the schedule from a file.
+2. The program doesn't check if the schedule is possible to be optimized, or whether the provided solution meets all the constraints.
+3. The program might break when too many tasks and events are added. Other solvers are available within PuLP, but they are not as user-friendly as the default solver. They would have to be installed by the user and linked to the program. However, these solvers might be better at handling large problems.
 
 ## How to Run
 
@@ -34,8 +51,3 @@ To demonstrate the process, users will interact with a user-friendly interface w
     - You can instead  provide a different file by using the `--schedule` argument.
     - An example command would be `python main.py --schedule my_schedule.txt`. This would read the schedule requirements from the `my_schedule.txt` file.
 4. View the schedule created by the integer programming solver in the terminal output.
-
-## Notes:
-1. Activity names must be provided first before adding events and tasks as they are required to create the binary variables for the problem. This is one of the reasons why it is better to read the schedule from a file.
-2. The program doesn't check if the schedule is possible to be optimized, or whether the provided solution meets all the constraints.
-3. The program might break when too many tasks and events are added. Other solvers are available within PuLP, but they are not as user-friendly as the default solver. They would have to be installed by the user and linked to the program. However, these solvers might be better at handling large problems.
