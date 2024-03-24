@@ -1,7 +1,33 @@
-# Lines beginning with # are considered as comments and do not affect the schedule
-
-# EVENT [name] [day] [start_time] [end_time]
-# TASK [name] [time_required] [start_day] [start_time] [end_day] [end_time]
+# Lines beginning with '#' are considered as comments and do not get parsed as
+#   schedule requirements.
+#
+# There are two types of schedule requirements:
+#   - EVENTS are fixed in time and cannot be moved by the scheduler.
+#   - TASKS are flexible and are moved around by the scheduler.
+#
+# Here is how you define EVENTS and TASKS:
+#   EVENT [name] [day] [start_time] [end_time]
+#   TASK [name] [time_required] [start_day] [start_time] [end_day] [end_time]
+#
+# Important Notes:
+#   - The program does not check if two events take place at the same time.
+#       Make sure you provide the correct schedule requirements.
+#   - Names are purely for display as all events and tasks are handled the
+#       same way. Only the first five characters will be displayed in the
+#       schedule.
+#   - Days must be weekdays and written in full. e.g. "Monday", "Wednesday".
+#   - Times must be between 09:00 and 19:00 and can only be specified up to
+#       30 minute intervals. e.g. "11:00", "17:30".
+#   - Time required must be an integer.
+#   - The program might not always be able to fulfill all the requirements.
+#       The optimizer solution will always be displayed but this be wrong.
+#
+# This file is a valid schedule requirements file. By default, the program will
+#   look for the file called 'schedule.txt'. Feel free to edit this file or
+#   write another file with the same rules specified above. To run the program
+#   with a different requirements file, you can pass in the file name as an
+#   optional argument replacing the text in square brackets:
+#   `python main.py --schedule [another-file.txt]`
 
 EVENT MaO Tuesday 13:00 14:30
 EVENT MaO Friday 13:00 14:30
