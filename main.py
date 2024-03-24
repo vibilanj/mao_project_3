@@ -1,7 +1,6 @@
 import argparse
-from constants import N_CHUNKS
 from formatting import convert_solution_to_schedule, show_schedule
-from parse import parse_schedule
+from parse import ScheduleParser
 from scheduler import Scheduler
 
 
@@ -16,7 +15,7 @@ args = argparser.parse_args()
 # NOTE: Activity names must be provided first before adding events and tasks as
 #   they are required to create the binary variables for the problem > One of
 #   the reasons why it is better to read the schedule from a file
-activities, event_args, task_args = parse_schedule(args.schedule)
+activities, event_args, task_args = ScheduleParser(args.schedule).parse_schedule()
 
 scheduler = Scheduler(activities)
 for event_args in event_args:
