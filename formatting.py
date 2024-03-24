@@ -1,4 +1,4 @@
-from constants import N_CHUNKS_PER_DAY, N_CHUNKS
+from constants import N_CHUNKS_PER_DAY
 
 
 # Converts the day and time to the index of the chunk where the activity starts.
@@ -22,28 +22,17 @@ def convert_chunk_to_interval(chunk):
     return f"{start_hour:02d}:{start_minute} - {end_hour:02d}:{end_minute}"
 
 
-# Splits the weekly schedule into daily schedules.
-def split_to_daily(schedule):
-    n = N_CHUNKS_PER_DAY
-    mon = schedule[:n]
-    tue = schedule[n:n*2]
-    wed = schedule[n*2:n*3]
-    thu = schedule[n*3:n*4]
-    fri = schedule[n*4:n*5]
-    return mon, tue, wed, thu, fri
-
-
 # Prints the schedule in a human-readable format. Names are truncated to
 #   five characters.
 def show_schedule(schedule):
     print("               |  MON  |  TUE  |  WED  |  THU  |  FRI  |")
     print("--------------------------------------------------------")
-    mon, tue, wed, thu, fri = split_to_daily(schedule)
+    n = N_CHUNKS_PER_DAY
     for c in range(0, N_CHUNKS_PER_DAY):
         interval = convert_chunk_to_interval(c)
-        mon_str = mon[c][:5]
-        tue_str = tue[c][:5]
-        wed_str = wed[c][:5]
-        thu_str = thu[c][:5]
-        fri_str = fri[c][:5]
+        mon_str = schedule[:n][c][:5]
+        tue_str = schedule[n:n*2][c][:5]
+        wed_str = schedule[n*2:n*3][c][:5]
+        thu_str = schedule[n*3:n*4][c][:5]
+        fri_str = schedule[n*4:n*5][c][:5]
         print(f" {interval} | {mon_str:>5} | {tue_str:>5} | {wed_str:>5} | {thu_str:>5} | {fri_str:>5} |")
