@@ -65,7 +65,7 @@ for c in chunks:
 # Solve the problem
 prob.solve(PULP_CBC_CMD(msg=0))
 
-sched = convert_solution_to_schedule(x, chunks, activities)
-show_schedule(sched)
+schedule = convert_solution_to_schedule(x, chunks, activities)
+show_schedule(schedule)
 
 # NOTE: doesn't check if the schedule is possible to be optimized, or whether all the constraints are met

@@ -1,7 +1,5 @@
 from constants import N_CHUNKS_PER_DAY
 
-# TODO: cleanup signatures
-
 def convert_solution_to_schedule(sol, chunks, activities):
     schedule = []
     for c in chunks:
@@ -10,38 +8,17 @@ def convert_solution_to_schedule(sol, chunks, activities):
                 schedule.append(a)
     return schedule
 
-def make_daily_sparse_schedule(day_sched):
-    current_activity = day_sched[0]
-    sparse_schedule = []
-    for i in range(1, len(day_sched)):
-        if day_sched[i] != current_activity:
-            sparse_schedule.append(current_activity)
-            current_activity = day_sched[i]
-        else:
-            sparse_schedule.append("")
-    sparse_schedule.append(current_activity)
-    return sparse_schedule
-
-def make_full_sparse_schedule(sched):
+def split_to_daily(schedule):
     n = N_CHUNKS_PER_DAY
-    mon = make_daily_sparse_schedule(sched[:n])
-    tue = make_daily_sparse_schedule(sched[n:n*2])
-    wed = make_daily_sparse_schedule(sched[n*2:n*3])
-    thu = make_daily_sparse_schedule(sched[n*3:n*4])
-    fri = make_daily_sparse_schedule(sched[n*4:n*5])
-    return mon, tue, wed, thu, fri
-
-def make_full_schedule(sched):
-    n = N_CHUNKS_PER_DAY
-    mon = sched[:n]
-    tue = sched[n:n*2]
-    wed = sched[n*2:n*3]
-    thu = sched[n*3:n*4]
-    fri = sched[n*4:n*5]
+    mon = schedule[:n]
+    tue = schedule[n:n*2]
+    wed = schedule[n*2:n*3]
+    thu = schedule[n*3:n*4]
+    fri = schedule[n*4:n*5]
     return mon, tue, wed, thu, fri
 
 # Assumes that each chunk is 30 minutes
-def convert_chunk_to_time(chunk):
+def convert_chunk_to_interval(chunk):
     # 0 -> 09:00 - 10:00
     # 8 -> 13:00 - 13:30
     day_chunk = chunk % N_CHUNKS_PER_DAY
@@ -52,17 +29,15 @@ def convert_chunk_to_time(chunk):
     return f"{start_hour:02d}:{start_minute} - {end_hour:02d}:{end_minute}"
 
 def show_schedule(schedule):
-    #               |  MON  |  TUE  |  WED  |  THU  |  FRI  |
-    #--------------------------------------------------------
-    # 09:00 - 10:00 |       |_     _|_     _|_     _|_     _|
-    # 10:00 - 11:00 |_ABCDE_|_     _|_     _|_     _|_     _|
-
-    # mon, tue, wed, thu, fri = make_full_sparse_schedule(schedule)
-    mon, tue, wed, thu, fri = make_full_schedule(schedule)
-
     print("               |  MON  |  TUE  |  WED  |  THU  |  FRI  |")
     print("--------------------------------------------------------")
-    for i in range(0, N_CHUNKS_PER_DAY):
-        time = convert_chunk_to_time(i)
+    mon, tue, wed, thu, fri = split_to_daily(schedule)
+    for c in range(0, N_CHUNKS_PER_DAY):
+        interval = convert_chunk_to_interval(c)
         # NOTE: prints only the first 5 characters of the activity name
-        print(f" {time} | {mon[i][:5]:>5} | {tue[i][:5]:>5} | {wed[i][:5]:>5} | {thu[i][:5]:>5} | {fri[i][:5]:>5} |")
+        mon_str = mon[c][:5]
+        tue_str = tue[c][:5]
+        wed_str = wed[c][:5]
+        thu_str = thu[c][:5]
+        fri_str = fri[c][:5]
+        print(f" {interval} | {mon_str:>5} | {tue_str:>5} | {wed_str:>5} | {thu_str:>5} | {fri_str:>5} |")
