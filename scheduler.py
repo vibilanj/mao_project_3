@@ -15,7 +15,7 @@ class Scheduler:
         #   variables for each timechunk-activity pair. The objective
         #   function is set to maximize free time.
         self.prob = LpProblem("Schedule_Optimization", LpMaximize)
-        self.x = LpVariable.dicts("schedule", (self.chunks, activities), cat='Binary')
+        self.x = LpVariable.dicts("schedule", (self.chunks, self.activities), cat='Binary')
         self.prob += lpSum(self.x[c][EMPTY_NAME] for c in self.chunks)
 
 
@@ -36,9 +36,7 @@ class Scheduler:
         start = daytime_to_start_chunk(*start_daytime)
         end = daytime_to_start_chunk(*end_daytime)
         chunks_required = time_required * 2
-        self.prob += lpSum(self.x[c][name] for c in self.chunks) == chunks_required
-        self.prob += lpSum(self.x[c][name] for c in self.chunks[:start]) == 0
-        self.prob += lpSum(self.x[c][name] for c in self.chunks[:end]) == chunks_required
+        self.prob += lpSum(self.x[c][name] for c in self.chunks[start:end]) == chunks_required
 
 
     # Adds the final constraint that each time chunk can only have one

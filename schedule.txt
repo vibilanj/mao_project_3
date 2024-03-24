@@ -49,3 +49,9 @@ EVENT Lunch Friday 12:00 13:00
 TASK HW1 8 Monday 10:30 Thursday 19:00
 TASK HW2 5 Tuesday 14:30 Friday 13:00
 TASK HW3 2 Thursday 14:00 Thursday 19:00
+
+TASK Gym 1 Monday 09:00 Monday 19:00
+TASK Gym 1 Tuesday 09:00 Tuesday 19:00
+TASK Gym 1 Wednesday 09:00 Wednesday 19:00
+TASK Gym 1 Thursday 09:00 Thursday 19:00
+TASK Gym 1 Friday 09:00 Friday 19:00
